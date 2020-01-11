@@ -20,4 +20,14 @@ const styles = StyleSheet.create({
     }
 })
 
+CategoryMealsScreen.navigationOptions =  (navigationData) => {
+
+    const CategoryId = navigationData.navigation.getParam('CategoryId');
+    const category = CATEGORIES.find((category) => category.id === CategoryId)
+
+    return {
+        headerTitle : category.title,
+    }
+}
+
 export default CategoryMealsScreen
