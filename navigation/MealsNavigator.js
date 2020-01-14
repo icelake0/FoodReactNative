@@ -11,17 +11,25 @@ import { Platform } from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 
+const defaultStackNavigationOptions = {
+    headerStyle: {
+        backgroundColor: Platform.OS == "Android" ? Colors.primary : '',
+    },
+    headerTintColor:  Platform.OS == "Android" ? Colors.light : Colors.primary,
+}
 const MealsNavigator = createStackNavigator({
     Categories : CategoriesScreen,
     CategoryMeals : CategoryMealsScreen,
     MealDetail : MealDetailScreen
 },{
-    defaultNavigationOptions : {
-        headerStyle: {
-            backgroundColor: Platform.OS == "Android" ? Colors.primary : '',
-        },
-        headerTintColor:  Platform.OS == "Android" ? Colors.light : Colors.primary,
-    }
+    defaultNavigationOptions : defaultStackNavigationOptions
+})
+
+const FavoritiesNavigator = createStackNavigator({
+    Favorities : FavoritiesScreen,
+    MealDetail : MealDetailScreen
+},{
+    defaultNavigationOptions : defaultStackNavigationOptions
 })
 
 const tabScreenConfig = {
@@ -35,7 +43,7 @@ const tabScreenConfig = {
         },
     },
     Favorities :  {
-        screen : FavoritiesScreen,
+        screen : FavoritiesNavigator,
         navigationOptions : {
             tabBarLabel : "My Favorities",
             tabBarIcon : (tabInfo) => {
@@ -45,7 +53,7 @@ const tabScreenConfig = {
         }
     }
 }
-const mealsFavTabNavigator = Platform.OS !== 'Android' ? 
+const mealsFavTabNavigator = Platform.OS === 'Android' ? 
     createMaterialBottomTabNavigator(tabScreenConfig, {
         activeColor : 'white',
         shifting : true
